@@ -53,8 +53,12 @@ root.render(<Root />);
 
 ## Git Setup
 
-1. Add ignore/ to .gitignore
-2. Add an ignore/ folder
+1. Change default branch to main
+* `git branch -m master main`
+2. Add ignore/ to .gitignore
+3. Add an ignore/ folder
+4. Commit changes
+5. Publish branch
 
 ## Run Locally
 
