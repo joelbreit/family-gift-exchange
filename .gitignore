@@ -24,3 +24,6 @@ yarn-error.log*
 
 # folder for temporary or private files
 ignore/
+
+# environment variables
+.env

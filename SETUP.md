@@ -6,7 +6,7 @@
 2. Create React app (this will create a new folder)
    1. `npx create-react-app family-gift-exchange`
 3. Install dependencies
-   1. `npm install react react-dom react-router-dom react-scripts reactstrap bootstrap-icons sass --save`
+   1. `npm install react react-dom react-router-dom react-scripts bootstrap reactstrap bootstrap-icons sass --save`
       1. react for compartmentalizing code
       2. react-dom and react-router-dom for routing between pages
       3. react-scripts for running the app
