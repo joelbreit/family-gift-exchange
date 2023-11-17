@@ -51,6 +51,11 @@ root.render(<Root />);
 6. Remove extra .js files
 7. Format files (Option + Shift + F)
 
+## Git Setup
+
+1. Add ignore/ to .gitignore
+2. Add an ignore/ folder
+
 ## Run Locally
 
 1. Run `npm start`
