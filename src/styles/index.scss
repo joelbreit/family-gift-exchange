@@ -16,6 +16,23 @@ body {
 
 // General styles
 
+$primary: #146B31;
+$primary-hover: #0F4C23;
+
 main {
 	padding: 20px;
+}
+
+.primary-navbar {
+    background-color: $primary !important;
+}
+
+.primary-button {
+    background-color: $primary !important;
+    border-color: $primary !important;
+    // hover
+    &:hover {
+        background-color: $primary-hover !important;
+        border-color: $primary-hover !important;
+    }
 }

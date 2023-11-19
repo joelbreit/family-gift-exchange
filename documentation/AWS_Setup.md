@@ -20,11 +20,16 @@
 
 ## Lambda
 
+### Create Function
+
 1. Go to Lambda
 2. Select 'Create Function'
 3. Enter a name (e.g. CreateAccountFunction)
 4. Use Node.js (default)
 5. Use default settings
+
+### Add IAM Role
+
 6. Configuration tab -> Permissions -> Execution role -> Edit
 7. Select 'Use an existing role'
 8. Add 'LambdaS3FullAccessRole'
@@ -35,17 +40,37 @@
 
 ## API Gateway
 
+### Create API
+
 1. Go to API Gateway
 2. Select 'Create API'
 3. Choose HTTP API and click 'Build'
 4. Click 'Add Integration'
 5. Select Lambda
 6. Choose the region and function
-8. Name it (FamilyGiftExchangeAPI)
-7. Click 'Next'
-8. Set method and path
-9. Default stage
-10. Create
+7. Name it (FamilyGiftExchangeAPI)
+8. Click 'Next'
+9. Set method and path
+10. Default stage
+11. Create
+    
+### Create Extra Routes
 
+1. Go to API Gateway
+2. Select the API
+3. Select 'Create'
+4. Select method and path
+5. 'Add Integration'
+6. 'Create and attach an integration'
+7. Select Lambda, region, and function
+
+### CORS
+
+1. In API Gateway, select the API
+2. CORS on the left
+3. Configure
+4. Add '*' to Access-Control-Allow-Origin and Access-Control-Allow-Headers
+5. Allow [POST] and OPTIONS methods
+6. Save
 
 ## Amplify

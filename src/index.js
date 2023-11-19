@@ -4,6 +4,8 @@ import "./styles/index.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
@@ -14,6 +16,12 @@ const Root = () => {
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 				</Routes>
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                </Routes>
+                <Routes>
+                    <Route path="/profile" element={<ProfilePage />} />
+                </Routes>
 			</BrowserRouter>
 		</React.StrictMode>
 	);

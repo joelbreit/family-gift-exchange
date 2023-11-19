@@ -20,29 +20,19 @@ function Header(args) {
 		<div>
 			<Navbar expand="sm" color="primary" dark {...args} className="primary-navbar">
 				<NavbarBrand tag={RouterNavLink} to="/">
-					Joel Breit
+					Family Gift Exchange
 				</NavbarBrand>
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className="me-auto" navbar>
 						<NavItem>
-							<NavLink tag={RouterNavLink} to="/" exact>
-								About Me
+							<NavLink tag={RouterNavLink} to="/login" exact>
+								Login
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink tag={RouterNavLink} to="/projects">
-								Projects
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink tag={RouterNavLink} to="/about">
-								About This Site
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink tag={RouterNavLink} to="/resume">
-								Resume
+							<NavLink tag={RouterNavLink} to="/profile">
+								Profile
 							</NavLink>
 						</NavItem>
 					</Nav>

@@ -1,16 +1,18 @@
 import {
-	GetObjectCommand,
-	PutObjectCommand,
-	S3Client,
+    GetObjectCommand,
+    S3Client
 } from "@aws-sdk/client-s3";
+
+// import jwt from "jsonwebtoken";
 
 const s3Client = new S3Client({ region: "us-east-1" });
 const BUCKET_NAME = "family-gift-exchange-app-data";
 const FILE_NAME = "users.json";
+// const JWT_SECRET = "your-secret-key"; // Keep this secret and secure
 
 export const handler = async (event) => {
 	try {
-		// Parse the input data
+// Parse the input data
 		const { name, password } = JSON.parse(event.body);
 
 		//TODO: Hash the password
@@ -43,36 +45,41 @@ export const handler = async (event) => {
 			};
 		}
 
-		// Check if user already exists
-		if (userData.users.some((user) => user.name === name)) {
-			// Add user password
-			userData.users.forEach((user) => {
-				if (user.name === name) {
-					user.password = hashedPassword;
-				}
-			});
-		} else {
-			// Add new user
-			userData.users.push({
-				name,
-				password: hashedPassword,
-				testUser: true,
-			});
+		const user = userData.users.find((u) => u.name === name);
+		if (!user) {
+			return {
+				statusCode: 401,
+				body: JSON.stringify({ message: "User not found" }),
+			};
 		}
 
-		// Write the updated user data back to S3
-		const putObjectParams = {
-			Bucket: BUCKET_NAME,
-			Key: FILE_NAME,
-			Body: JSON.stringify(userData),
-			ContentType: "application/json",
-		};
-		const putCommand = new PutObjectCommand(putObjectParams);
-		await s3Client.send(putCommand);
+        // TODO: use bcrpyt to unhash
+		// const passwordIsValid = bcrypt.compareSync(hashedPassword, user.password);
+
+        const passwordIsValid = hashedPassword === user.password;
+		if (!passwordIsValid) {
+			return {
+				statusCode: 401,
+				body: JSON.stringify({ message: "Invalid password" }),
+			};
+		}
+
+		// TODO: Generate a JWT and return it to the client
+        // const token = jwt.sign({ name: user.name }, JWT_SECRET, {
+		// 	expiresIn: "1h",
+		// });
+
+        // user.giftee is the id of the user's giftee
+        const gifteeName = userData.users.find((u) => u.id === user.giftee).name;
+        const gifteeWishListUrl = userData.users.find((u) => u.id === user.giftee).wishListUrl;
 
 		return {
 			statusCode: 200,
-			body: JSON.stringify({ message: "Account created successfully" }),
+			body: JSON.stringify({ wishListUrl: gifteeWishListUrl, giftee: gifteeName }),
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				// TODO: other necessary headers
+			},
 		};
 	} catch (error) {
 		console.error(error);
