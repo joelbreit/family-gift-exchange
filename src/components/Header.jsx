@@ -26,7 +26,7 @@ function Header(args) {
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className="me-auto" navbar>
 						<NavItem>
-							<NavLink tag={RouterNavLink} to="/login" exact>
+							<NavLink tag={RouterNavLink} to="/login">
 								Login
 							</NavLink>
 						</NavItem>

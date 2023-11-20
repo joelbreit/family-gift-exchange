@@ -16,14 +16,8 @@ const Root = () => {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
-				</Routes>
-                <Routes>
                     <Route path="/login" element={<LoginPage />} />
-                </Routes>
-                <Routes>
                     <Route path="/profile" element={<ProfilePage />} />
-                </Routes>
-                <Routes>
                     <Route path="/about" element={<AboutPage />} />
                 </Routes>
 			</BrowserRouter>
