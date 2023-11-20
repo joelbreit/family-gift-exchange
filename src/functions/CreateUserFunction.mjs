@@ -45,19 +45,29 @@ export const handler = async (event) => {
 
 		// Check if user already exists
 		if (userData.users.some((user) => user.name === name)) {
-			// Add user password
+            // Get the user
+            const user = userData.users.find((user) => user.name === name);
+            // Check if password is already set
+            if (user.password !== "") {
+                // Password already set, report error
+                console.error("Password already set");
+                return {
+                    statusCode: 400,
+                    body: JSON.stringify({ message: "Password already set" }),
+                };
+            }
 			userData.users.forEach((user) => {
 				if (user.name === name) {
 					user.password = hashedPassword;
 				}
 			});
 		} else {
-			// Add new user
-			userData.users.push({
-				name,
-				password: hashedPassword,
-				testUser: true,
-			});
+            // User not found, report error
+            console.error("User not found");
+            return {
+                statusCode: 404,
+                body: JSON.stringify({ message: "User not found" }),
+            };
 		}
 
 		// Write the updated user data back to S3

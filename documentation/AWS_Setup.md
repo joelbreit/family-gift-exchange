@@ -74,3 +74,18 @@
 6. Save
 
 ## Amplify
+
+### Create App
+
+1. Go to Amplify
+2. Select 'Create App'
+3. Name it (family-gift-exchange)
+
+### Domain
+
+1. Go to Amplify
+2. Select the app
+3. Domain management
+4. Add domain
+5. Enter a domain name (giftexchange.breitest.com)
+6. Amplify automatically adds the CNAME record to Route 53

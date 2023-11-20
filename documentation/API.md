@@ -9,6 +9,10 @@
   * Password: string
 * Data Received
   * Success message
+    * 400 Bad Request if password has already been set
+    * 404 Not Found if user not found
+    * 500 Internal Server Error if database error
+    * 200 OK if successful
 
 ## User Login
 
@@ -18,7 +22,12 @@
   * User's first name: string
   * Password: string
 * Data Received
-  * Authentication token/session ID: string
+  * Success message
+    * 400 Bad Request if password has not been set
+    * 401 Unauthorized if password is incorrect
+    * 404 Not Found if user not found
+    * 500 Internal Server Error if database error
+    * 200 OK if successful
 
 ## Retrieve Assigned Gift Recipient
 

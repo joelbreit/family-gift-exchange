@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Button,
 	Col,
 	Container,
@@ -8,6 +9,7 @@ import {
 	Input,
 	Label,
 	Row,
+	Spinner,
 } from "reactstrap";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,14 +17,15 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 const LoginContent = () => {
 	const navigate = useNavigate();
-    const location = useLocation();
-    const signUpClicked = location.state?.isNewUser ?? false;  // Fallback to false if undefined
-	console.log("signUpClicked: ", signUpClicked);
+	const location = useLocation();
+	const signUpClicked = location.state?.isNewUser ?? false;
 	const [isNewUser, setIsNewUser] = useState(signUpClicked);
 	const [selectedName, setSelectedName] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [names, setNames] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState("");
 
 	// Once, when this loads, we want to get the list of names from the API
 	useEffect(() => {
@@ -44,48 +47,73 @@ const LoginContent = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		setError("");
+		setIsLoading(true);
+		const startTime = Date.now();
 		// Implement API call functionality here
 		if (isNewUser) {
 			handleCreateAccount();
 		} else {
 			handleLogin();
 		}
+
+		const endTime = Date.now();
+		console.log(`API call duration: ${endTime - startTime} ms`);
+
+		// Show the loading spinner for at least 1 second
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 1000);
 	};
 
 	const handleLogin = async () => {
-		const response = await fetch(
-			`${apiUrl}/login`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					name: selectedName,
-					password: password,
-				}),
-			}
-		);
+		const response = await fetch(`${apiUrl}/login`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name: selectedName,
+				password: password,
+			}),
+		});
+
 		// Handle the response
 		const body = await response.json();
-		console.log("Response from API: ", body);
+		const statusCode = response.status;
 		let loginSuccess = false;
-		if (response.status !== 200) {
-			console.log("Error: ", body);
-			return;
-		} else {
-			console.log("Login successful!");
-			loginSuccess = true;
+		switch (statusCode) {
+			case 200:
+				console.log("Login successful!");
+				loginSuccess = true;
+				break;
+			case 400:
+				console.error("400 Bad Request - Password not set");
+				setError(
+					"Password has not been set. Please create an account."
+				);
+				return;
+			case 401:
+				console.error("401 Unauthorized - Password incorrect");
+				setError("Password invalid. Please try again.");
+				return;
+			case 404:
+				console.error("404 Not Found - User not found");
+				setError("User not found. Enter your first name.");
+				return;
+			case 500:
+				console.error("500 Internal Server Error - Database error");
+				setError("Database error. Please try again.");
+				return;
+			default:
+				console.error("Unexpected error: ", statusCode);
+				setError("An unexpected error occurred. Please try again.");
+				return;
 		}
 		const receivedWishlistUrl = body.wishListUrl;
 		const receivedGiftee = body.giftee;
 
 		if (loginSuccess) {
-			// history.push({
-			//     pathname: '/profile',
-			//     state: { wishListUrl: receivedWishlistUrl, giftee: receivedGiftee }
-			// });
-
 			navigate("/profile", {
 				state: {
 					name: selectedName,
@@ -99,24 +127,55 @@ const LoginContent = () => {
 	const handleCreateAccount = async () => {
 		console.log("Creating account for ", selectedName);
 		try {
-			const response = await fetch(
-				`${apiUrl}/createAccount`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						name: selectedName,
-						password: password,
-					}),
-				}
-			);
+			const response = await fetch(`${apiUrl}/createAccount`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: selectedName,
+					password: password,
+				}),
+			});
 			// Handle the response
 			const body = await response.json();
-			console.log("Response from API: ", body);
+			const statusCode = response.status;
+			let createAccountSuccess = false;
+			switch (statusCode) {
+				case 200:
+					console.log("Account created successfully");
+					createAccountSuccess = true;
+					break;
+				case 400:
+					console.error("400 Bad Request - Password already set");
+					setError("Password has already been set. Please log in.");
+					return;
+				case 404:
+					console.error("404 Not Found - User not found");
+					setError("User not found. Enter your first name.");
+					return;
+				case 500:
+					console.error("500 Internal Server Error - Database error");
+					setError("Database error. Please try again.");
+					return;
+				default:
+					console.error("Unexpected error: ", statusCode);
+					setError("An unexpected error occurred. Please try again.");
+					return;
+			}
+
+			if (createAccountSuccess) {
+				navigate("/profile", {
+					state: {
+						name: selectedName,
+						wishListUrl: "",
+						giftee: "",
+					},
+				});
+			}
 		} catch (error) {
 			console.error("Error:", error);
+			setError("An unexpected error occurred. Please try again.");
 		}
 	};
 
@@ -124,10 +183,32 @@ const LoginContent = () => {
 		<Container>
 			<Row className="justify-content-center">
 				<Col sm="12" md="8">
+					{isNewUser ? <h1>Create Password</h1> : <h1>Log In</h1>}
 					<Form onSubmit={handleSubmit}>
+						{isNewUser ? (
+							<p>
+								If you are a valid user, your name has already
+								been added to the system. Please enter your
+								first name below and create a password.
+							</p>
+						) : (
+							<p>
+								If you have already created a password, please
+								enter your first name and password to log in.
+							</p>
+						)}
 						<FormGroup>
 							<Label for="nameSelect">Name</Label>
 							<Input
+								type="text"
+								name="name"
+								id="name"
+								placeholder="Enter your first name"
+								onChange={(e) =>
+									setSelectedName(e.target.value)
+								}
+							></Input>
+							{/* <Input
 								type="select"
 								name="name"
 								id="nameSelect"
@@ -142,7 +223,7 @@ const LoginContent = () => {
 										{name}
 									</option>
 								))}
-							</Input>
+							</Input> */}
 						</FormGroup>
 
 						{isNewUser ? (
@@ -230,7 +311,10 @@ const LoginContent = () => {
 									{isNewUser ? "Create Account" : "Log In"}
 								</Button>
 							</Col>
-							{isNewUser}
+						</Row>
+						<Row className="mt-3 justify-content-center">
+							{error && <Alert color="danger">{error}</Alert>}
+							{isLoading ? <Spinner color="success" /> : null}
 						</Row>
 					</Form>
 				</Col>

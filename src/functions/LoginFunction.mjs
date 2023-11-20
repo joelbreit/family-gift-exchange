@@ -1,7 +1,4 @@
-import {
-    GetObjectCommand,
-    S3Client
-} from "@aws-sdk/client-s3";
+import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 // import jwt from "jsonwebtoken";
 
@@ -12,7 +9,7 @@ const FILE_NAME = "users.json";
 
 export const handler = async (event) => {
 	try {
-// Parse the input data
+		// Parse the input data
 		const { name, password } = JSON.parse(event.body);
 
 		//TODO: Hash the password
@@ -48,34 +45,48 @@ export const handler = async (event) => {
 		const user = userData.users.find((u) => u.name === name);
 		if (!user) {
 			return {
-				statusCode: 401,
+				statusCode: 404,
 				body: JSON.stringify({ message: "User not found" }),
 			};
 		}
 
-        // TODO: use bcrpyt to unhash
+		// TODO: use bcrpyt to unhash
 		// const passwordIsValid = bcrypt.compareSync(hashedPassword, user.password);
-
-        const passwordIsValid = hashedPassword === user.password;
-		if (!passwordIsValid) {
+		const passwordIsEmpty = user.password === "";
+		const passwordIsValid = hashedPassword === user.password;
+		if (passwordIsEmpty) {
 			return {
 				statusCode: 401,
-				body: JSON.stringify({ message: "Invalid password" }),
+				body: JSON.stringify({ message: "Password not set" }),
 			};
+		} else {
+			if (!passwordIsValid) {
+				return {
+					statusCode: 401,
+					body: JSON.stringify({ message: "Password invalid" }),
+				};
+			}
 		}
 
 		// TODO: Generate a JWT and return it to the client
-        // const token = jwt.sign({ name: user.name }, JWT_SECRET, {
+		// const token = jwt.sign({ name: user.name }, JWT_SECRET, {
 		// 	expiresIn: "1h",
 		// });
 
-        // user.giftee is the id of the user's giftee
-        const gifteeName = userData.users.find((u) => u.id === user.giftee).name;
-        const gifteeWishListUrl = userData.users.find((u) => u.id === user.giftee).wishListUrl;
+		// user.giftee is the id of the user's giftee
+		const gifteeName = userData.users.find(
+			(u) => u.id === user.giftee
+		).name;
+		const gifteeWishListUrl = userData.users.find(
+			(u) => u.id === user.giftee
+		).wishListUrl;
 
 		return {
 			statusCode: 200,
-			body: JSON.stringify({ wishListUrl: gifteeWishListUrl, giftee: gifteeName }),
+			body: JSON.stringify({
+				wishListUrl: gifteeWishListUrl,
+				giftee: gifteeName,
+			}),
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				// TODO: other necessary headers
