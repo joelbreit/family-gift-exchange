@@ -35,6 +35,11 @@ function Header(args) {
 								Profile
 							</NavLink>
 						</NavItem>
+						<NavItem>
+							<NavLink tag={RouterNavLink} to="/about">
+								About
+							</NavLink>
+						</NavItem>
 					</Nav>
 				</Collapse>
 			</Navbar>
