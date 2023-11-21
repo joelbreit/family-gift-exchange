@@ -4,6 +4,7 @@ import "./styles/index.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import AboutPage from "./pages/AboutPage";
+import CoalPage from "./pages/CoalPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -19,6 +20,7 @@ const Root = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/about" element={<AboutPage />} />
+                    <Route path="/coal" element={<CoalPage />} />
                 </Routes>
 			</BrowserRouter>
 		</React.StrictMode>

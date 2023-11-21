@@ -63,7 +63,7 @@ const LoginContent = () => {
 		// Show the loading spinner for at least 1 second
 		setTimeout(() => {
 			setIsLoading(false);
-		}, 1000);
+		}, 1000); 
 	};
 
 	const handleLogin = async () => {
@@ -289,6 +289,7 @@ const LoginContent = () => {
 									block
 									onClick={() => {
 										setIsNewUser(!isNewUser);
+										setError("");
 									}}
 								>
 									{isNewUser ? "Existing User?" : "New User?"}

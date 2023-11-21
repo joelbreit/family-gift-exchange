@@ -89,3 +89,17 @@
 4. Add domain
 5. Enter a domain name (giftexchange.breitest.com)
 6. Amplify automatically adds the CNAME record to Route 53
+
+## SES
+
+### Get Started
+1. Go to SES
+2. "Get Started"
+3. Provide an email that you have access to
+4. Provide a name (breitest.com)
+
+### Verify Domain
+
+1. Under "Verify sending domain", select Get DNS Records
+2. Go to your hosted zone in Route53
+3. Add the CNAME records
