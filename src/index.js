@@ -4,6 +4,7 @@ import "./styles/index.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import AboutPage from "./pages/AboutPage";
+import { AuthProvider } from "./components/AuthProvider";
 import CoalPage from "./pages/CoalPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -15,13 +16,15 @@ const Root = () => {
 	return (
 		<React.StrictMode>
 			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<LandingPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/coal" element={<CoalPage />} />
-                </Routes>
+				<AuthProvider>
+					<Routes>
+						<Route path="/" element={<LandingPage />} />
+						<Route path="/login" element={<LoginPage />} />
+						<Route path="/profile" element={<ProfilePage />} />
+						<Route path="/about" element={<AboutPage />} />
+						<Route path="/coal" element={<CoalPage />} />
+					</Routes>
+				</AuthProvider>
 			</BrowserRouter>
 		</React.StrictMode>
 	);

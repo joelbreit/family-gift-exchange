@@ -79,10 +79,22 @@ export const handler = async (event) => {
 		};
 		const putCommand = new PutObjectCommand(putObjectParams);
 		await s3Client.send(putCommand);
+		const user = userData.users.find((u) => u.name === name);
+
+		// user.giftee is the id of the user's giftee
+		const gifteeName = userData.users.find(
+			(u) => u.id === user.giftee
+		).name;
+		const gifteeWishListUrl = userData.users.find(
+			(u) => u.id === user.giftee
+		).wishListUrl;
 
 		return {
 			statusCode: 200,
-			body: JSON.stringify({ message: "Account created successfully" }),
+			body: JSON.stringify({
+				wishListUrl: gifteeWishListUrl,
+				giftee: gifteeName,
+			}),
 		};
 	} catch (error) {
 		console.error(error);

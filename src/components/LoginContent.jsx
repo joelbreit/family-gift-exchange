@@ -11,8 +11,11 @@ import {
 	Row,
 	Spinner,
 } from "reactstrap";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { AuthContext } from "./AuthProvider";
+
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const LoginContent = () => {
@@ -23,32 +26,15 @@ const LoginContent = () => {
 	const [selectedName, setSelectedName] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [names, setNames] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
-
-	// Once, when this loads, we want to get the list of names from the API
-	useEffect(() => {
-		// TODO: Implement API call functionality here
-		setNames([
-			"",
-			"Becky",
-			"Glenn",
-			"Hannah",
-			"Joel",
-			"John",
-			"Kristina",
-			"Lauren",
-			"Luke",
-			"Rosemary",
-			"Zac",
-		]);
-	}, []); // Empty array means this will only run once
+	const { authState, setAuthState } = useContext(AuthContext);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		setError("");
 		setIsLoading(true);
+
 		const startTime = Date.now();
 		// Implement API call functionality here
 		if (isNewUser) {
@@ -63,7 +49,7 @@ const LoginContent = () => {
 		// Show the loading spinner for at least 1 second
 		setTimeout(() => {
 			setIsLoading(false);
-		}, 1000); 
+		}, 1000);
 	};
 
 	const handleLogin = async () => {
@@ -114,6 +100,11 @@ const LoginContent = () => {
 		const receivedGiftee = body.giftee;
 
 		if (loginSuccess) {
+			setAuthState({
+				authenticated: true,
+				user: selectedName,
+				giftee: receivedGiftee,
+			});
 			navigate("/profile", {
 				state: {
 					name: selectedName,
@@ -163,13 +154,21 @@ const LoginContent = () => {
 					setError("An unexpected error occurred. Please try again.");
 					return;
 			}
+			
+			const receivedWishlistUrl = body.wishListUrl;
+			const receivedGiftee = body.giftee;
 
 			if (createAccountSuccess) {
+				setAuthState({
+					authenticated: true,
+					user: selectedName,
+					giftee: "",
+				});
 				navigate("/profile", {
 					state: {
 						name: selectedName,
-						wishListUrl: "",
-						giftee: "",
+						wishListUrl: receivedWishlistUrl,
+						giftee: receivedGiftee,
 					},
 				});
 			}
@@ -208,22 +207,6 @@ const LoginContent = () => {
 									setSelectedName(e.target.value)
 								}
 							></Input>
-							{/* <Input
-								type="select"
-								name="name"
-								id="nameSelect"
-								value={selectedName}
-								onChange={(e) =>
-									setSelectedName(e.target.value)
-								}
-								placeholder="Select a name"
-							>
-								{names.map((name) => (
-									<option key={name} value={name}>
-										{name}
-									</option>
-								))}
-							</Input> */}
 						</FormGroup>
 
 						{isNewUser ? (

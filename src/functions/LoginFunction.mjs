@@ -87,10 +87,6 @@ export const handler = async (event) => {
 				wishListUrl: gifteeWishListUrl,
 				giftee: gifteeName,
 			}),
-			headers: {
-				"Access-Control-Allow-Origin": "*",
-				// TODO: other necessary headers
-			},
 		};
 	} catch (error) {
 		console.error(error);
