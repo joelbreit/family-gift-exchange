@@ -46,10 +46,10 @@ const LoginContent = () => {
 		const endTime = Date.now();
 		console.log(`API call duration: ${endTime - startTime} ms`);
 
-		// Show the loading spinner for at least 1 second
+		// Show the loading spinner for at least 2 seconds
 		setTimeout(() => {
 			setIsLoading(false);
-		}, 1000);
+		}, 2000);
 	};
 
 	const handleLogin = async () => {
@@ -154,7 +154,7 @@ const LoginContent = () => {
 					setError("An unexpected error occurred. Please try again.");
 					return;
 			}
-			
+
 			const receivedWishlistUrl = body.wishListUrl;
 			const receivedGiftee = body.giftee;
 
@@ -178,7 +178,15 @@ const LoginContent = () => {
 		}
 	};
 
-	return (
+	return authState.authenticated ? (
+		<>
+			<h1 className="text-center">Welcome!</h1>
+			<p>
+				You're already logged in. Go to your{" "}
+				<a href="/profile">profile</a>.
+			</p>{" "}
+		</>
+	) : (
 		<Container>
 			<Row className="justify-content-center">
 				<Col sm="12" md="8">

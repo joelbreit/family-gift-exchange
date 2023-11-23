@@ -1,25 +1,28 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+import React, { useContext } from "react";
+
+import { AuthContext } from "./AuthProvider";
 import { Container } from "reactstrap";
-import React from "react";
 import { useLocation } from "react-router-dom";
 
 const ProfileContent = () => {
 	const location = useLocation();
-	const { name, wishListUrl, giftee } = location.state || {};
+	const { name } = location.state || {};
 
-	return (
-		name ?
+	const { authState } = useContext(AuthContext);
+
+	return authState.authenticated ? (
 		<Container>
 			<h1 className="text-center">Welcome, {name}!</h1>
 
 			<p>
-				<strong>Giftee:</strong> {giftee}
+				<strong>Giftee:</strong> {authState.giftee}
 			</p>
 			<p>
 				<a
 					className="btn btn-primary primary-button"
-					href={wishListUrl}
+					href={authState.wishListUrl}
 					role="button"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -28,7 +31,7 @@ const ProfileContent = () => {
 				</a>
 			</p>
 		</Container>
-		:
+	) : (
 		<Container>
 			<h1 className="text-center">Welcome!</h1>
 			<p>

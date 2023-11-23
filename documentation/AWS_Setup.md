@@ -70,7 +70,7 @@
 2. CORS on the left
 3. Configure
 4. Add '*' to Access-Control-Allow-Origin and Access-Control-Allow-Headers
-5. Allow [POST] and OPTIONS methods
+5. Allow [POST, GET, and OPTIONS] methods
 6. Save
 
 ## Amplify

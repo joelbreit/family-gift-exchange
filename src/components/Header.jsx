@@ -40,6 +40,11 @@ function Header(args) {
 								About
 							</NavLink>
 						</NavItem>
+						<NavItem>
+							<NavLink tag={RouterNavLink} to="/directory">
+								Directory
+							</NavLink>
+						</NavItem>
 					</Nav>
 				</Collapse>
 			</Navbar>
