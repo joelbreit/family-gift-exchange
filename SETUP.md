@@ -19,9 +19,9 @@
 ## Clean Up React's Default Files
 
 1. Replace the files in ./public
-2. Update the <title> in ./public/index.html
+2. Update the title tag in ./public/index.html
 3. In ./src, create a components/ folder, a pages/ folder, and a styles/ folder
-4. Move App.js to ./pages, rename to Home.js, and update imports
+4. ~~Move App.js to ./pages, rename to Home.js, and update imports~~ Delete App.js and App.css
 5. Move .css files to ./styles, rename to .scss, and update imports
 6. Replace index.js with:
 ```JavaScript
@@ -59,6 +59,29 @@ root.render(<Root />);
 3. Add an ignore/ folder
 4. Commit changes
 5. Publish branch
+
+## Secrets
+
+### Local Repo
+
+1. Add .env to .gitignore
+2. Create a .env file in the root directory
+3. Add API secrets to .env
+4. Use .env variables in code
+5. Double check that .env is in .gitignore
+6. Commit changes
+
+### AWS
+
+1. In Amplify, select the app
+2. In advanced settings, select 'Environment variables'
+3. Add the variables and values
+
+## Global Authentication
+
+1. Create an AuthProvider component
+2. Import it at the top level and wrap the app in it
+3. Use the AuthProvider to pass the authentication state throughout
 
 ## Run Locally
 
