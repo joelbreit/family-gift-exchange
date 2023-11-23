@@ -39,6 +39,10 @@ To run the application locally: `npm start`. This will start the development ser
 
 Detailed AWS setup instructions can be found in [AWS_SETUP.md](./documentation/AWS_Setup.md).
 
+## Project Setup
+
+Detailed project setup instructions can be found in [SETUP.md](./documentation/SETUP.md).
+
 ## Future Enhancements
 
 -   Transition to a robust database system.
