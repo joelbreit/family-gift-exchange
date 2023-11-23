@@ -104,6 +104,7 @@ const LoginContent = () => {
 				authenticated: true,
 				user: selectedName,
 				giftee: receivedGiftee,
+				wishListUrl: receivedWishlistUrl,
 			});
 			navigate("/profile", {
 				state: {
@@ -162,7 +163,8 @@ const LoginContent = () => {
 				setAuthState({
 					authenticated: true,
 					user: selectedName,
-					giftee: "",
+					giftee: receivedGiftee,
+					wishListUrl: receivedWishlistUrl,
 				});
 				navigate("/profile", {
 					state: {
