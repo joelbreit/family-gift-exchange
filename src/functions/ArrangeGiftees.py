@@ -7,15 +7,26 @@ import json
 import random
 import os
 
-this_year = 2023
+this_year = 2024
 
-random.seed("YEAR")
+random.seed("3")
 
 names = []
 disallowed_matches = dict()
 
-# To may need to run this with debug from the base of this project for this to work
+# You may need to run this with debug from the base of this project for this to work
 users_file_path = os.path.abspath("ignore/users.json")
+
+# Add current giftees to previousGiftees list
+# with open(users_file_path, "r") as users_file:
+# 	contents = json.load(users_file)
+# 	users = contents["users"]
+# 	for user in users:
+# 		if "previousGiftees" not in user:
+# 			user["previousGiftees"] = dict()
+# 		if str(this_year - 1) in user["previousGiftees"]:
+# 			user["previousGiftees"][str(this_year - 2)] = user["previousGiftees"][str(this_year - 1)]
+# 		user["previousGiftees"][str(this_year - 1)] = user["giftee"]
 
 with open(users_file_path, "r") as users_file:
     contents = json.load(users_file)

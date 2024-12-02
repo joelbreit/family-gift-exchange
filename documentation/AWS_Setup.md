@@ -33,7 +33,7 @@
 6. Configuration tab -> Permissions -> Execution role -> Edit
 7. Select 'Use an existing role'
 8. Add 'LambdaS3FullAccessRole'
-9.  Add code to index.mjs
+9.  Add code to index.mjs (note: use AWS SDK v3 for JavaScript, not v2)
 10. Add test data to event.json and save
 11. Deploy
 12. Test

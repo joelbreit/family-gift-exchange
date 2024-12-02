@@ -229,6 +229,7 @@ const LoginContent = () => {
 										type="password"
 										name="password"
 										id="password"
+										placeholder="Create a password"
 										value={password}
 										onChange={(e) =>
 											setPassword(e.target.value)
@@ -243,6 +244,7 @@ const LoginContent = () => {
 										type="password"
 										name="confirmPassword"
 										id="confirmPassword"
+										placeholder="Confirm your password"
 										value={confirmPassword}
 										onChange={(e) =>
 											setConfirmPassword(e.target.value)
@@ -264,6 +266,7 @@ const LoginContent = () => {
 									type="password"
 									name="password"
 									id="password"
+									placeholder="Enter your password"
 									value={password}
 									onChange={(e) =>
 										setPassword(e.target.value)
