@@ -14,7 +14,7 @@ const LandingContent = () => {
 		<Container>
 			<Row className="justify-content-center">
 				<Col md="8">
-					<h1>Welcome to the 2024 Family Gift Exchange Web App!</h1>
+					<h1>Welcome to the 2025 Family Gift Exchange Web App!</h1>
 					<p>
 						A convenient way to manage your family's gift exchange
 						this holiday season... as long as your family happens to

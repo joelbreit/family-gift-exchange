@@ -7,9 +7,9 @@ import json
 import random
 import os
 
-this_year = 2024
+THIS_YEAR = 2025
 
-random.seed("3")
+random.seed("0")
 
 names = []
 disallowed_matches = dict()
@@ -24,9 +24,9 @@ users_file_path = os.path.abspath("ignore/users.json")
 # 	for user in users:
 # 		if "previousGiftees" not in user:
 # 			user["previousGiftees"] = dict()
-# 		if str(this_year - 1) in user["previousGiftees"]:
-# 			user["previousGiftees"][str(this_year - 2)] = user["previousGiftees"][str(this_year - 1)]
-# 		user["previousGiftees"][str(this_year - 1)] = user["giftee"]
+# 		if str(THIS_YEAR - 1) in user["previousGiftees"]:
+# 			user["previousGiftees"][str(THIS_YEAR - 2)] = user["previousGiftees"][str(THIS_YEAR - 1)]
+# 		user["previousGiftees"][str(THIS_YEAR - 1)] = user["giftee"]
 
 with open(users_file_path, "r") as users_file:
     contents = json.load(users_file)
@@ -37,9 +37,9 @@ with open(users_file_path, "r") as users_file:
         disallowed_matches[name] = []
         disallowed_matches[name].append(name)
         disallowed_matches[name].append(user["spouse"])
-        # check users.previousGiftees.[this_year - 1] and users.previousGiftees.[this_year - 2]
+        # check users.previousGiftees.[THIS_YEAR - 1] and users.previousGiftees.[THIS_YEAR - 2]
         # if they exist, add them to disallowed_matches[user]
-        for year in range(this_year - 2, this_year):
+        for year in range(THIS_YEAR - 2, THIS_YEAR):
             if str(year) in user["previousGiftees"]:
                 disallowed_matches[name].append(user["previousGiftees"][str(year)])
 
